@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# The following commands will execute this shell script:
+# [existing]$ ssh root@IP_ADDRESS
+# [new]# yum -y install curl
+# [new]# bash < <(curl -s https://raw.github.com/jhx/vmware_centos_58/master/install)
+
+
+# install required packages
+yum install -y man nano sudo wget
+
+# create jeeves account using temporary (insecure) password
+useradd jeeves
+echo "insecure" | passwd jeeves --stdin
+
+# configure jeeves using temporary (insecure) ssh key
+mkdir -m 0700 /home/jeeves/.ssh
+chown jeeves:jeeves /home/jeeves/.ssh
+cd /home/jeeves/.ssh
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFBdpNSsTPNjuMw2PI9CEz7VNzpqXAvNo3YotioCVs68ajRtaX4mDxoJMgdLugNv+HnCBJQ6H5ea05UEtn3RwPL6NKb1MT73FRZSsm/mkIYuPhu6n92s6pHcmvYH98BeO4++jBRrEluA0C3IFsWwRRvzbrZBzUA2ySrZBrtP1YrzPYqhBE4f1sKuDyy9/eSU6t0j9usf1g8anV3hnJNk2EhpCqw5/V64D0YJkR1FK9zmUlINFEj2TLNZTV7tu6t97mw0Et+c1EPgUPZQ0nEZsM/UNVgO9ItnvjGn0J4O5kBoRZlj351K9UJIoxaL+V4QfOhr3eGLGkZ0P2PesKzc5r insecure public key" > authorized_keys
+chmod 0644 authorized_keys
+
